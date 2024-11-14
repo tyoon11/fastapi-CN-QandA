@@ -4,6 +4,7 @@ FROM python:3.11
 WORKDIR /src
 
 # 필요한 라이브러리 설치
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 80

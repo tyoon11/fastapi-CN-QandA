@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  mysql:
+      image: mysql:8.0
+      container_name: mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: 123456
+        MYSQL_DATABASE: myapp-sql
+        MYSQL_USER: myapp-sql
+        MYSQL_PASSWORD: 123456
+      ports:
+        - "33306:3306"  # MySQL 접근 포트
+      networks:
+        - myappnet
+
+  myfastapi:
+    build:
+      context: ./myfastapi
+      dockerfile: Dockerfile
+    container_name: myfastapi
+    ports:
+      - "8000:80"  # 백엔드 접근 포트
+    environment:
+      - SQLALCHEMY_DATABASE_URL=mysql+pymysql://myapp-sql:123456@mysql/myapp-sql
+    volumes:
+      - ./myfastapi:/src  # 로컬 소스 코드 바인딩
+    depends_on:
+      - mysql
+    networks:
+      - myappnet
+      
+  myfront:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: myfront
+    ports:
+      - "5173:5173"  # 프론트엔드 접근 포트
+    volumes:
+      - ./frontend:/src  # 로컬 소스 코드 바인딩
+    networks:
+      - myappnet
+    depends_on:
+      - myfastapi
+
+
+networks:
+  myappnet:
+    driver: bridge
+

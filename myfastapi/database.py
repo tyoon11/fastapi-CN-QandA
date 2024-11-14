@@ -1,9 +1,9 @@
-
+import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://myapp-sql:123456@localhost/myapi" # DB 접속 주소
+SQLALCHEMY_DATABASE_URL = os.environ.get("SQLALCHEMY_DATABASE_URL") # DB 접속 주소
 # DB 접속 객체(커넥션 풀) 생성
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL

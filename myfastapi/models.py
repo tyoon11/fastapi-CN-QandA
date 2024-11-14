@@ -23,7 +23,7 @@ class Question(Base):
     __tablename__ = 'question'
 
     id = Column(Integer, primary_key=True)
-    subject = Column(String, nullable=False)
+    subject = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
     create_date = Column(DateTime, nullable=False)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
@@ -35,7 +35,7 @@ class Answer(Base):
     __tablename__ = 'answer'
 
     id = Column(Integer, primary_key=True)
-    content = Column(String, nullable=False)
+    content = Column(String(255), nullable=False)
     create_date = Column(DateTime, nullable=False)
     question_id = Column(Integer, ForeignKey('question.id'))
     # relationship - 참조할 모델명, 역참조 설정
@@ -50,7 +50,7 @@ class User(Base):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True, nullable=False)
-    password = Column(String, nullable=False)
-    email = Column(String, unique=True, nullable=False)
+    username = Column(String(50), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    email = Column(String(50), unique=True, nullable=False)
 
