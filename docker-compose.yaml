@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     container_name: myfastapi
     ports:
-      - "8000:80"  # 백엔드 접근 포트
+      - "8001:8000"
     environment:
       - SQLALCHEMY_DATABASE_URL=mysql+pymysql://myapp-sql:123456@mysql/myapp-sql
     volumes:
@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile
     container_name: myfront
     ports:
-      - "5173:5173"  # 프론트엔드 접근 포트
+      - "8002:5173"  # 프론트엔드 접근 포트
     volumes:
       - ./frontend:/src  # 로컬 소스 코드 바인딩
     networks:
@@ -44,6 +44,20 @@ services:
     depends_on:
       - myfastapi
 
+  nginx-proxy-manager:
+    image: jlesage/nginx-proxy-manager
+    container_name: myproxy
+    ports:
+      - "8181:8181"  # Nginx Proxy Manager 웹 UI 포트
+      - "80:8080"    # HTTP 트래픽을 위한 포트
+      - "443:4443"   # HTTPS 트래픽을 위한 포트
+    volumes:
+      - /docker/appdata/nginx-proxy-manager:/config:rw  # 설정 데이터 영구 저장소
+    networks:
+      - myappnet
+    depends_on:
+      - myfastapi
+      - myfront
 
 networks:
   myappnet:
