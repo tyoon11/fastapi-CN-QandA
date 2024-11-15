@@ -7,7 +7,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
         <!-- 로고 -->
-        <a use:link class="navbar-brand" href="/" on:click="{() => {$keyword = '', $page = 0}}">Pybo</a>
+        <a use:link class="navbar-brand" href="/" on:click="{() => {$keyword = '', $page = 0}}">CN Q&A</a>
         <button
             class="navbar-toggler"
             type="button"

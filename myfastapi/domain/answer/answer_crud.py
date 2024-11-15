@@ -29,5 +29,10 @@ def delete_answer(db: Session, db_answer: Answer):
     db.commit()
 
 def vote_answer(db: Session, db_answer: Answer, db_user: User):
-    db_answer.voter.append(db_user)
+    if db_user in db_answer.voter:
+        # 이미 추천한 경우 추천 취소
+        db_answer.voter.remove(db_user)
+    else:
+        # 추천하지 않은 경우 -> 추천 취소
+        db_answer.voter.append(db_user)
     db.commit()
