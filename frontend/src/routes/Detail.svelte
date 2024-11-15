@@ -69,36 +69,36 @@
         }
     }
     function vote_question(_question_id) {
-        if(window.confirm('정말로 추천하시겠습니까?')) {
-            let url = "/api/question/vote"
-            let params = {
-                question_id: _question_id
-            }
-            fastapi('post', url, params, 
-                (json) => {
-                    get_question()
-                },
-                (err_json) => {
-                    error = err_json
-                }
-            )
+        
+        let url = "/api/question/vote"
+        let params = {
+            question_id: _question_id
         }
+        fastapi('post', url, params, 
+            (json) => {
+                get_question()
+            },
+            (err_json) => {
+                error = err_json
+            }
+        )
+        
     }
     function vote_answer(answer_id) {
-        if(window.confirm('정말로 추천하시겠습니까?')) {
-            let url = "/api/answer/vote"
-            let params = {
-                answer_id: answer_id
-            }
-            fastapi('post', url, params, 
-                (json) => {
-                    get_question()
-                },
-                (err_json) => {
-                    error = err_json
-                }
-            )
+        
+        let url = "/api/answer/vote"
+        let params = {
+            answer_id: answer_id
         }
+        fastapi('post', url, params, 
+            (json) => {
+                get_question()
+            },
+            (err_json) => {
+                error = err_json
+            }
+        )
+        
     }
 </script>
 
