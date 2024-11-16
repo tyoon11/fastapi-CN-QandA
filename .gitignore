@@ -1,5 +1,4 @@
 .idea
-myapi.db
 *.pyc
 __pycache__
 

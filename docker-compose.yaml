@@ -53,8 +53,9 @@ services:
       - "80:8080"    # HTTP 트래픽을 위한 포트
       - "443:4443"   # HTTPS 트래픽을 위한 포트
     volumes:
-      - /docker/appdata/nginx-proxy-manager:/config:rw  # 설정 데이터 영구 저장소
-    networks:
+      - /docker/appdata/nginx-proxy-manager:/config  # 기본 설정 데이터
+      - ./nginx/custom:/config/nginx/custom        # 커스텀 설정 디렉토리
+    networks:  
       - mynet
     depends_on:
       - myfastapi
