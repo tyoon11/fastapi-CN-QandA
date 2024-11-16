@@ -3,6 +3,11 @@ import { access_token, username, is_login } from "./store"
 import { get } from 'svelte/store'
 import { push } from 'svelte-spa-router'
 
+// FastAPI 서버 URL을 동적으로 설정
+const backendHost = window.location.hostname;  // 현재 호스트 이름
+const backendPort = "8001";  // FastAPI 서버의 포트
+const fastapiBaseUrl = `http://${backendHost}:${backendPort}`;
+
 // fastapi 서버와의 http 요청을 처리하는 함수
 const fastapi = (operation, url, params, success_callback, failure_callback) => {
     let method = operation
@@ -17,7 +22,7 @@ const fastapi = (operation, url, params, success_callback, failure_callback) => 
     }
 
     // 서버 URL 생성
-    let _url = import.meta.env.VITE_SERVER_URL+url
+    let _url = fastapiBaseUrl + url;
     if(method === 'get') {
         //  GET 요청의 경우 URL에 쿼리 파라미터 추가
         _url += "?" + new URLSearchParams(params)
