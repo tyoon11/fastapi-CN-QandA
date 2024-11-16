@@ -9,6 +9,8 @@ services:
         MYSQL_DATABASE: myapp-sql
         MYSQL_USER: myapp-sql
         MYSQL_PASSWORD: 123456
+      volumes:
+        - ./dbdata:/var/lib/mysql 
       ports:
         - "33306:3306"  # MySQL 접근 포트
       networks:
