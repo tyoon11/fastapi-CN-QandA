@@ -60,6 +60,7 @@ services:
       - myfront
 
 networks:
-  myappnet:
+  mynet:
+    name: mynet
     driver: bridge
 
