@@ -6,27 +6,31 @@ from database import get_db
 from domain.question import question_schema, question_crud
 from domain.user.user_router import get_current_user
 from models import User
-# 라우터 객체 생성
-# prefix -> 요청 URL에 항상 포함되어야 하는 값
+
+# 질문 관련 라우터 생성
 router = APIRouter(
     prefix="/api/question",
 )
 
-
+# 질문 목록 조회 API
 @router.get("/list", response_model=question_schema.QuestionList)
 def question_list(db: Session = Depends(get_db),
                   page: int = 0, size: int = 10, keyword: str = ''):
+    # 질문 목록을 페이징과 검색 기능을 포함하여 조회
     total, _question_list = question_crud.get_question_list(
         db, skip=page*size, limit=size, keyword=keyword)
     return {
         'total': total,
         'question_list': _question_list
     }
+    
+# 질문 상세 조회 API
 @router.get("/detail/{question_id}", response_model=question_schema.Question)
 def question_detail(question_id: int, db: Session = Depends(get_db)):
     question = question_crud.get_question(db, question_id=question_id)
     return question
 
+# 질문 생성 API
 @router.post("/create", status_code=status.HTTP_204_NO_CONTENT)
 def question_create(_question_create: question_schema.QuestionCreate,
                     db: Session = Depends(get_db),
@@ -34,6 +38,7 @@ def question_create(_question_create: question_schema.QuestionCreate,
     question_crud.create_question(db=db, question_create=_question_create,
                                   user=current_user)
 
+# 질문 수정 API
 @router.put("/update", status_code=status.HTTP_204_NO_CONTENT)
 def question_update(_question_update: question_schema.QuestionUpdate,
                     db: Session = Depends(get_db),
@@ -48,7 +53,7 @@ def question_update(_question_update: question_schema.QuestionUpdate,
     question_crud.update_question(db=db, db_question=db_question,
                                   question_update=_question_update)
 
-
+# 질문 삭제 API
 @router.delete('/delete', status_code=status.HTTP_204_NO_CONTENT)
 def question_delete(_question_delete: question_schema.QuestionDelete,
                     db: Session = Depends(get_db),
@@ -62,6 +67,7 @@ def question_delete(_question_delete: question_schema.QuestionDelete,
                             detail='삭제 권한이 없습니다.')
     question_crud.delete_question(db=db, db_question=db_question)
 
+# 질문 추천/ 추천 취소 API
 @router.post('/vote', status_code=status.HTTP_204_NO_CONTENT)
 def question_vote(_question_vote: question_schema.QuestionVote,
                   db: Session = Depends(get_db),

@@ -9,12 +9,14 @@
     let error = {detail:[]}
     let question_id = 0
     let content = ''
-
+    
+    // 답변 세부 정보 조회 API 호출
     fastapi("get", "/api/answer/detail/" + answer_id, {}, (json) => {
         question_id = json.question_id
         content = json.content
     })
 
+    // 답변 업데이트 함수
     function update_answer(event) {
         event.preventDefault()
         let url = "/api/answer/update"
@@ -22,6 +24,7 @@
             answer_id: answer_id,
             content: content,
         }
+        // 답변 수정 API 호출
         fastapi('put', url, params, 
             (json) => {
                 push('/detail/'+question_id)
@@ -33,6 +36,7 @@
     }
 </script>
 
+<!-- 답변 수정 페이지 UI -->
 <div class="container">
     <h5 class="my-3 border-bottom pb-2">답변 수정</h5>
     <Error error={error} />

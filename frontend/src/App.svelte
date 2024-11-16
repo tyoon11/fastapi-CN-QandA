@@ -8,6 +8,8 @@
   import UserLogin from "./routes/UserLogin.svelte"
   import QuestionModify from "./routes/QuestionModify.svelte"
   import AnswerModify from "./routes/AnswerModify.svelte"
+
+  // 라우터 경로 설정
   const routes = {
     '/': Home,
     '/detail/:question_id': Detail,

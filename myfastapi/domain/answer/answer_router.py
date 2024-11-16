@@ -11,14 +11,14 @@ router = APIRouter(
     prefix="/api/answer",
 )
 
-
+# 답변 생성 API
 @router.post("/create/{question_id}", status_code=status.HTTP_204_NO_CONTENT)
 def answer_create(question_id: int,
                   _answer_create: answer_schema.AnswerCreate,
                   db: Session = Depends(get_db),
                   current_user: User = Depends(get_current_user)):
 
-    # create answer
+    # 질문 id에 대한 답변 생성
     question = question_crud.get_question(db, question_id=question_id)
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
@@ -26,15 +26,19 @@ def answer_create(question_id: int,
                               answer_create=_answer_create,
                               user=current_user)
 
+# 답변 상세 조회 API
 @router.get('/detail/{answer_id}', response_model=answer_schema.Answer)
 def answer_detail(answer_id: int,db: Session = Depends(get_db)):
+    # 답변 id에 대한 정보를 리턴
     answer = answer_crud.get_answer(db, answer_id= answer_id)
     return answer
 
+# 답변 수정 API
 @router.put('/update', status_code=status.HTTP_204_NO_CONTENT)
 def answer_update(_answer_update: answer_schema.AnswerUpdate,
                   db: Session = Depends(get_db),
                   current_user: User = Depends(get_current_user)):
+    # 작성자를 확인하고 답변 내용 수정
     db_answer = answer_crud.get_answer(db, answer_id=_answer_update.answer_id)
     if not db_answer:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
@@ -45,10 +49,12 @@ def answer_update(_answer_update: answer_schema.AnswerUpdate,
     answer_crud.update_answer(db=db, db_answer=db_answer,
                               answer_update=_answer_update)
 
+# 답변 삭제 API
 @router.delete('/delete', status_code=status.HTTP_204_NO_CONTENT)
 def answer_delete(_answer_delete: answer_schema.AnswerDelete,
                   db: Session = Depends(get_db),
                   current_user: User = Depends(get_current_user)):
+    # 작성자를 확인하고 답변 삭제
     db_answer = answer_crud.get_answer(db, answer_id=_answer_delete.answer_id)
     if not db_answer:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
@@ -59,6 +65,7 @@ def answer_delete(_answer_delete: answer_schema.AnswerDelete,
 
     answer_crud.delete_answer(db=db, db_answer=db_answer)
 
+# 답변 추천/ 추천 취소 API
 @router.post("/vote", status_code=status.HTTP_204_NO_CONTENT)
 def answer_vote(_answer_vote: answer_schema.AnswerVote,
                 db: Session = Depends(get_db),
