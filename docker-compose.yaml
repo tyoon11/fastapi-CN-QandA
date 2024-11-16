@@ -39,7 +39,7 @@ services:
       - "8002:5173"  # 프론트엔드 접근 포트
     volumes:
       - ./frontend:/src  # 로컬 소스 코드 바인딩
-      - /src/node_modules feedback-node:bind # 이미지 빌드 시 생성된 node_modules 폴더는 덮어씌우지 않음
+      - node_modules:/src/node_modules # 컨테이너 내부 node_modules를 별도 볼륨으로 관리
     networks:
       - mynet
     depends_on:
@@ -64,3 +64,5 @@ networks:
   mynet:
     driver: bridge
 
+volumes:
+  node_modules:
