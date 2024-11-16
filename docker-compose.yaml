@@ -9,6 +9,7 @@ services:
         MYSQL_DATABASE: myapp-sql
         MYSQL_USER: myapp-sql
         MYSQL_PASSWORD: 123456
+        TZ: "Asia/Seoul"
       volumes:
         - ./dbdata:/var/lib/mysql 
       ports:
@@ -25,6 +26,7 @@ services:
       - "8001:8000"
     environment:
       - SQLALCHEMY_DATABASE_URL=mysql+pymysql://myapp-sql:123456@mysql/myapp-sql
+      - TZ=Asia/Seoul # 한국 시간 설정
     volumes:
       - ./myfastapi:/src  # 로컬 소스 코드 바인딩
     depends_on:
