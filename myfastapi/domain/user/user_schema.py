@@ -1,10 +1,13 @@
 from pydantic import BaseModel, field_validator, EmailStr
 from pydantic_core.core_schema import FieldValidationInfo
 
+# 사용자 정보 스키마
 class User(BaseModel):
     id: int
     username: str
     email: str
+
+# 사용자 생성 요청 스키마
 class UserCreate(BaseModel):
     username: str
     password1: str
@@ -13,6 +16,7 @@ class UserCreate(BaseModel):
 
     @field_validator('username', 'password1', 'password2', 'email')
     def not_empty(cls, v):
+        # 필드가 비어 있는지 검증
         if not v or not v.strip():
             raise ValueError('빈 값은 허용되지 않습니다.')
         return v
@@ -23,6 +27,7 @@ class UserCreate(BaseModel):
             raise ValueError('비밀번호가 일치하지 않습니다')
         return v
 
+# 액세스 토큰 응답 스키마
 class Token(BaseModel):
     access_token: str
     token_type: str

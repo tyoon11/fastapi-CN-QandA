@@ -8,7 +8,9 @@ app = FastAPI()
 
 # 테이블 생성
 Base.metadata.create_all(bind=engine)
-# CORS 문제 해결
+
+# CORS 설정
+# 모두 허용
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# 라우터 등록
 app.include_router(question_router.router)
 app.include_router(answer_router.router)
 app.include_router(user_router.router)

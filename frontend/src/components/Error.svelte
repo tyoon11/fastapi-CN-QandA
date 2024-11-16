@@ -2,6 +2,7 @@
     export let error  // 전달받은 오류
 </script>
 
+<!-- 에러 메시지를 화면에 표시 -->
 {#if typeof error.detail === 'string'}
     <div class="alert alert-danger" role="alert">
         <div>
