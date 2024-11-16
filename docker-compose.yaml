@@ -12,7 +12,7 @@ services:
       ports:
         - "33306:3306"  # MySQL 접근 포트
       networks:
-        - myappnet
+        - mynet
 
   myfastapi:
     build:
