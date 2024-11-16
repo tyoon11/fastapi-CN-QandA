@@ -1,5 +1,5 @@
 # myfastapi/Dockerfile
-FROM python:3.11-alpine
+FROM python:3.11
 # 작업 디렉토리 설정
 WORKDIR /src
 

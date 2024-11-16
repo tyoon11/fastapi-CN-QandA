@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <!-- 로고 -->
         <!-- 로고 클릭 시 메인 페이지로 이동하고 검색 키워드 및 페이지 번호 초기화 -->
-        <a use:link class="navbar-brand" href="/" on:click="{() => {$keyword = '', $page = 1}}">CN Q&A</a>
+        <a use:link class="navbar-brand" href="/" on:click="{() => {$keyword = '', $page = 0}}">CN Q&A</a>
         <!-- 네비게이션 메뉴 토글 버튼 -->
         <button
             class="navbar-toggler"
