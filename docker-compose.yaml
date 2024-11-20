@@ -9,9 +9,10 @@ services:
         MYSQL_DATABASE: myapp-sql
         MYSQL_USER: myapp-sql
         MYSQL_PASSWORD: 123456
-        TZ: "Asia/Seoul"
+        TZ: "Asia/Seoul" # 한국 시간대 설정
       volumes:
-        - ./db/backup.sql:/docker-entrypoint-initdb.d/init.sql 
+        # 기존의 db파일을 가져와 생성
+        - ./db/backup.sql:/docker-entrypoint-initdb.d/init.sql
       ports:
         - "33306:3306"  # MySQL 접근 포트
       networks:
@@ -25,7 +26,7 @@ services:
     ports:
       - "8001:8000"
     environment:
-      - SQLALCHEMY_DATABASE_URL=mysql+pymysql://myapp-sql:123456@mysql/myapp-sql
+      - SQLALCHEMY_DATABASE_URL=mysql+pymysql://myapp-sql:123456@mysql/myapp-sql # DB URL
       - TZ=Asia/Seoul # 한국 시간 설정
     volumes:
       - ./myfastapi:/src  # 로컬 소스 코드 바인딩
@@ -58,7 +59,7 @@ services:
       - "443:4443"   # HTTPS 트래픽을 위한 포트
     volumes:
       - /docker/appdata/nginx-proxy-manager:/config  # 기본 설정 데이터
-      - ./nginx/custom:/config/nginx/custom        # 커스텀 설정 디렉토리
+      - ./nginx/custom:/config/nginx/custom        # 커스텀 설정 디렉토리 - 리버스 프록시 설정
     networks:  
       - mynet
     depends_on:
