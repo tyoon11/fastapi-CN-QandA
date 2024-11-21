@@ -6,7 +6,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import OperationalError
 
 # 데이터베이스 URL - mysql 사용자
-SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL", "mysql+pymysql://myapp-sql:123456@mysql/myapp_sql")
+SQLALCHEMY_DATABASE_URL = os.getenv(
+    "SQLALCHEMY_DATABASE_URL", "mysql+pymysql://myapp-sql:123456@mysql/myapp_sql"
+)
+
 
 # 데이터베이스 엔진 생성
 def create_db_engine():
@@ -23,6 +26,7 @@ def create_db_engine():
             print("데이터 베이스 연결 실패, 5초 뒤 재시도됩니다..")
             time.sleep(5)
 
+
 # 데이터 베이스 엔진
 engine = create_db_engine()
 
@@ -30,6 +34,7 @@ engine = create_db_engine()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
 
 # 데이터 베이스 세션 생성 및 종료
 def get_db():
